@@ -7,23 +7,23 @@ server:
       enabled: true
       force: true
 
-# ??? ??? ??? ?????? ??? ??? ????. (?? ??? ? ??? ??? ??)
+# 별도의 설정이 없으면 스프링부트가 메모리 모드로 전환시킴. (아래 전체가 다 없어도 테스트 가능)
 spring:
   profiles:
     active: local
   datasource:
-    #    url: jdbc:h2:mem:test # jdbc:h2:mem:test => ??? DB ??. h2 database ???? ???.
+    #    url: jdbc:h2:mem:test # jdbc:h2:mem:test => 메모리 DB 모드. h2 database 안띄워도 실행됨.
     url: jdbc:h2:tcp://localhost/~/security
     username: sa
     password:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create       # create : ?? ??? ?? entity? ? drop? ?? create?? application? ????.
-    properties:              # create-drop : create? ?? ??? application ????? drop query? ??.
+      ddl-auto: create       # create : 내가 가지고 있는 entity를 다 drop한 후에 create하고 application을 실행시킴.
+    properties:              # create-drop : create와 같고 마지막 application 종료시점에 drop query를 날림.
       hibernate:
-        #        show_sql: true      # SQL ??? console? ??
-        format_sql: true     # ??? ????? ???? ??
+        #        show_sql: true      # SQL 로그를 console에 남김
+        format_sql: true     # 쿼리를 포맷팅해서 보기좋게 해줌
         use_sql_comments: true
   data:
     web:
@@ -32,5 +32,5 @@ spring:
         max-page-size: 2000
 logging:
   level:
-    org.hibernate.SQL: debug # SQL ??? ??? ??
-#    org.hibernate.type : trace  # ????? ????? ? ? ??
+    org.hibernate.SQL: debug # SQL 로그를 파일로 남김
+#    org.hibernate.type : trace  # 바인딩되는 파라미터를 볼 수 있음
