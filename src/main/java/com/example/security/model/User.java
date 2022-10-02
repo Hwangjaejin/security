@@ -19,6 +19,8 @@ public class User {
     private String password;
     private String email;
     private String role; // ROLE_USER, ROLE_ADMIN
+    private String provider; // ex) goolge, facebook
+    private String prividerId; // ex) google_106911837430895243897
     @CreationTimestamp // 날짜 자동으로 넣어줌
     private Timestamp createDate;
 }
