@@ -33,8 +33,10 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/loginForm") // formLogin() + loginPage() => 권한이 없는 경로는 /loginForm 페이지로 떨어지게함.
                 .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행한다.(Controller에 /login을 만들지 않아도 됨)
-                .defaultSuccessUrl("/"); // /loginForm 호출로 로그인을 하면 / 로 보내줌. 특정페이지(/user)를 호출해서 로그인을 하면 호출한 페이지로 보내줌.
-
+                .defaultSuccessUrl("/") // /loginForm 호출로 로그인을 하면 / 로 보내줌. 특정페이지(/user)를 호출해서 로그인을 하면 호출한 페이지로 보내줌.
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm"); // formLogin() + loginPage() <=> oauth2Login() + loginPage()
         return http.build();
     }
 }

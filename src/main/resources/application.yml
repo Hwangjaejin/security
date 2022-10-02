@@ -30,7 +30,17 @@ spring:
       pageable:
         default-page-size: 10 # default : 20
         max-page-size: 2000
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 119113362766-b3ocqdb7spjo2v0cbbnat5ajk319819m.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile
+
 logging:
   level:
     org.hibernate.SQL: debug # SQL 로그를 파일로 남김
 #    org.hibernate.type : trace  # 바인딩되는 파라미터를 볼 수 있음
+
