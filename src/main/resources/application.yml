@@ -19,7 +19,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create       # create : 내가 가지고 있는 entity를 다 drop한 후에 create하고 application을 실행시킴.
+      ddl-auto: none       # create : 내가 가지고 있는 entity를 다 drop한 후에 create하고 application을 실행시킴.
     properties:              # create-drop : create와 같고 마지막 application 종료시점에 drop query를 날림.
       hibernate:
         #        show_sql: true      # SQL 로그를 console에 남김

@@ -1,11 +1,16 @@
 package com.example.security.controller;
 
+import com.example.security.config.auth.PrincipalDetails;
 import com.example.security.model.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +26,40 @@ public class IndexController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @GetMapping("/test/login")
+    public @ResponseBody String testLogin(
+            Authentication authentication,
+            @AuthenticationPrincipal PrincipalDetails userDetails) { // 원래는 UserDetails 타입으로 받아야함.
+
+        /**
+         * Authentication 객채를 사용한 방법
+         * getPrincipal() 의 리턴타입이 Object이므로 다운캐스팅 해줘야한다.
+         * 원래는 UserDetails로 다운캐스팅 해줘야하지만 PrincipalDetails가 UserDetails를 구현하기 때문에 PrincipalDetails로 다운캐스팅 받음.
+         */
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("principalDetails.getUser() = " + principalDetails.getUser()); // 같은 결과
+
+        // @AuthenticationPrincipal를 사용한 방법
+        System.out.println("userDetails.getUsername() = " + userDetails.getUser()); // 같은결과
+
+        return "세션정보 확인하기";
+    }
+
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String testOAuthLogin(
+            Authentication authentication,
+            @AuthenticationPrincipal OAuth2User oAuth) {
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+
+        // PrincipalOauth2UserService의 super.loadUser(userRequest).getAttributes()와 같은 결과
+        System.out.println("oAuth2User.getAttributes() = " + oAuth2User.getAttributes());
+
+        // oAuth2User.getAttributes() 와 같은 결과
+        System.out.println("oAuth2User = " + oAuth.getAttributes());
+
+        return "OAuth 세션정보 확인하기";
+    }
+
     @GetMapping({"","/"})
     public String index() {
         // 머스테치 기본폴더 : src/main/resources
@@ -28,8 +67,12 @@ public class IndexController {
         return "index"; // src/main/resources/templates/index.mustache 로 찾게됨
     }
 
+    /**
+     * UserDetails와 OAuth2User 를 모두 구현한 PrincipalDetails를 사용해서
+     * 2가지 모두에 대응할 수 있도록 설계
+     */
     @GetMapping("/user")
-    public @ResponseBody String user() {
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         return "user";
     }
 

@@ -23,7 +23,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         User userEntity = userRepository.findByUsername(username);
         if (StringUtils.hasText(username)) {
-            return new PrincipalDetails(userEntity); // Authentication으로 반환됨. Authentication은 시큐리티 Session으로 반환됨.
+            return new PrincipalDetails(userEntity); // Authentication 객체로 리턴됨. Authentication은 시큐리티 Session으로 반환됨.
         }
 
         return null;

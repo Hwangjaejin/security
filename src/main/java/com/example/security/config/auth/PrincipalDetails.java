@@ -10,13 +10,28 @@ package com.example.security.config.auth;
 // Authentication 객체안에 User정보를 저장할 때는 UserDetails 타입이어야 함.
 
 import com.example.security.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+/**
+ * 스프링 시큐리티는 자기만의 세션이 있다.(시큐리티 세션)
+ *
+ * 시큐리티 세션에 들어갈 수 있는 타입은 Authentication 객체밖에 없다.
+ *
+ * Authentication 객체에는 2개의 타입만 들어갈 수 있다.
+ * 1. UserDetails - 일반적인 로그인을 할 때 UserDetails 타입이 Authentication 객체로 들어가고
+ * 2. OAuth2User - OAuth 로그인을 할 때 OAuth2User 타입이 Authentication 객체로 들어간다.
+ *
+ * 두 가지 모두를 구현한 클래스를 만들어서 사용.
+ */
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // Composition
 
@@ -66,5 +81,15 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
