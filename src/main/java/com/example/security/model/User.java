@@ -1,6 +1,8 @@
 package com.example.security.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +23,18 @@ public class User {
     private String email;
     private String role; // ROLE_USER, ROLE_ADMIN
     private String provider; // ex) goolge, facebook
-    private String prividerId; // ex) google_106911837430895243897
+    private String providerId; // ex) google_106911837430895243897
     @CreationTimestamp // 날짜 자동으로 넣어줌
     private Timestamp createDate;
+
+    @Builder
+    public User(String username, String password, String email, String role, String provider, String providerId, Timestamp createDate) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.createDate = createDate;
+    }
 }

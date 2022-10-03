@@ -17,8 +17,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    // 메서드 종료 시 @AuthenticationPrincipal 어노테이션이 만들어짐.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("==========일반로그인==========");
+
         System.out.println("username = " + username);
 
         User userEntity = userRepository.findByUsername(username);

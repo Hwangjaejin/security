@@ -69,10 +69,11 @@ public class IndexController {
 
     /**
      * UserDetails와 OAuth2User 를 모두 구현한 PrincipalDetails를 사용해서
-     * 2가지 모두에 대응할 수 있도록 설계
+     * 일반로그인, OAuth로그인 2가지 모두에 대응할 수 있도록 설계
      */
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails.getUser() = " + principalDetails.getUser());
         return "user";
     }
 
